@@ -1,0 +1,82 @@
+import java.util.Stack;
+
+public class IterativeQuickSortDescending {
+
+    public static void main(String[] args) {
+        int[] array = {38, 27, 43, 3, 9, 82, 10};
+        System.out.println("Original Array: " + java.util.Arrays.toString(array));
+
+        iterativeQuickSort(array, 0, array.length - 1);
+
+        System.out.println("Sorted Array in Descending Order: " + java.util.Arrays.toString(array));
+    }
+
+    /**
+     * Итеративный метод для быстрой сортировки массива в порядке убывания.
+     * @param array Массив для сортировки.
+     * @param low Нижняя граница сортируемого подмассива.
+     * @param high Верхняя граница сортируемого подмассива.
+     */
+    public static void iterativeQuickSort(int[] array, int low, int high) {
+        // Создаем стек для хранения границ подмассивов
+        Stack<Integer> stack = new Stack<>();
+
+        // Добавляем начальные границы массива в стек
+        stack.push(low);
+        stack.push(high);
+
+        // Пока стек не пуст
+        while (!stack.isEmpty()) {
+            // Извлекаем high и low
+            high = stack.pop();
+            low = stack.pop();
+
+            // Разделяем массив и получаем индекс опорного элемента
+            int pi = partition(array, low, high);
+
+            // Если в левом подмассиве есть больше одного элемента, добавляем его в стек
+            if (pi - 1 > low) {
+                stack.push(low);
+                stack.push(pi - 1);
+            }
+
+            // Если в правом подмассиве есть больше одного элемента, добавляем его в стек
+            if (pi + 1 < high) {
+                stack.push(pi + 1);
+                stack.push(high);
+            }
+        }
+    }
+
+    /**
+     * Метод для разделения массива по опорному элементу и сортировки элементов.
+     * @param array Массив для сортировки.
+     * @param low Нижняя граница сортируемого подмассива.
+     * @param high Верхняя граница сортируемого подмассива.
+     * @return Индекс опорного элемента после разделения.
+     */
+    public static int partition(int[] array, int low, int high) {
+        // Выбираем правый элемент как опорный
+        int pivot = array[high];
+        int i = (low - 1); // Индекс меньшего элемента
+
+        for (int j = low; j < high; j++) {
+            // Если текущий элемент больше или равен опорному
+            if (array[j] >= pivot) {
+                i++;
+
+                // Меняем местами array[i] и array[j]
+                int temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+
+        // Меняем местами array[i+1] и array[high] (или опорный элемент)
+        int temp = array[i + 1];
+        array[i + 1] = array[high];
+        array[high] = temp;
+
+        return i + 1; // Возвращаем индекс опорного элемента
+    }
+}
