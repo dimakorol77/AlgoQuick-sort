@@ -1,0 +1,60 @@
+public class QuickSortDescending {
+
+    public static void main(String[] args) {
+        int[] array = {38, 27, 43, 3, 9, 82, 10};
+        System.out.println("Original Array: " + java.util.Arrays.toString(array));
+
+        quickSort(array, 0, array.length - 1);
+
+        System.out.println("Sorted Array in Descending Order: " + java.util.Arrays.toString(array));
+    }
+
+    /**
+     * Метод для быстрой сортировки массива в порядке убывания.
+     * @param array Массив для сортировки.
+     * @param low Нижняя граница сортируемого подмассива.
+     * @param high Верхняя граница сортируемого подмассива.
+     */
+    public static void quickSort(int[] array, int low, int high) {
+        if (low < high) {
+            // Разделение массива и получение индекса опорного элемента
+            int pi = partition(array, low, high);
+
+            // Рекурсивная сортировка элементов слева и справа от опорного элемента
+            quickSort(array, low, pi - 1);
+            quickSort(array, pi + 1, high);
+        }
+    }
+
+    /**
+     * Метод для разделения массива по опорному элементу и сортировки элементов.
+     * @param array Массив для сортировки.
+     * @param low Нижняя граница сортируемого подмассива.
+     * @param high Верхняя граница сортируемого подмассива.
+     * @return Индекс опорного элемента после разделения.
+     */
+    public static int partition(int[] array, int low, int high) {
+        // Выбираем правый элемент в качестве опорного
+        int pivot = array[high];
+        int i = (low - 1); // Индекс меньшего элемента
+
+        for (int j = low; j < high; j++) {
+            // Если текущий элемент больше или равен опорному
+            if (array[j] >= pivot) {
+                i++;
+
+                // Меняем местами array[i] и array[j]
+                int temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+
+        // Меняем местами array[i+1] и array[high] (или опорный элемент)
+        int temp = array[i + 1];
+        array[i + 1] = array[high];
+        array[high] = temp;
+
+        return i + 1; // Возвращаем индекс опорного элемента
+    }
+}
